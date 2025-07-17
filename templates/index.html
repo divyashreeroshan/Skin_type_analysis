@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skin Type Analyzer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f8fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      border-radius: 8px;
+      background: #f1f1f1;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .preview {
+      margin-top: 15px;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Skin Type Analyzer</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" onchange="previewImage(event)" required>
+      <br>
+      <button type="submit">Analyze</button>
+    </form>
+
+    {% if prediction %}
+      <div class="result">
+        Prediction: <span style="color: #4CAF50">{{ prediction | capitalize }}</span>
+      </div>
+      <img class="preview" src="{{ image_path }}" alt="Uploaded Image">
+    {% endif %}
+
+    <img id="imagePreview" class="preview" style="display:none;" />
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const imagePreview = document.getElementById('imagePreview');
+      imagePreview.src = URL.createObjectURL(event.target.files[0]);
+      imagePreview.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
